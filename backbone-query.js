@@ -180,18 +180,18 @@ var __slice = [].slice,
         case "$nin":
         case "$all":
         case "$any":
-          return _(value).isArray();
+          return _.isArray(value);
         case "$size":
-          return _(value).isNumber();
+          return _.isNumber(value);
         case "$regex":
-          return _(value).isRegExp();
+          return _.isRegExp(value);
         case "$like":
         case "$likeI":
-          return _(value).isString();
+          return _.isString(value);
         case "$between":
-          return _(value).isArray() && (value.length === 2);
+          return _.isArray(value) && (value.length === 2);
         case "$cb":
-          return _(value).isFunction();
+          return _.isFunction(value);
         default:
           return true;
       }
@@ -201,14 +201,14 @@ var __slice = [].slice,
         case "$like":
         case "$likeI":
         case "$regex":
-          return _(value).isString();
+          return _.isString(value);
         case "$contains":
         case "$all":
         case "$any":
         case "$elemMatch":
-          return _(value).isArray();
+          return _.isArray(value);
         case "$size":
-          return _(value).isArray() || _(value).isString();
+          return _.isArray(value) || _.isString(value);
         case "$in":
         case "$nin":
           return value != null;
@@ -221,14 +221,14 @@ var __slice = [].slice,
     performQuery = function(type, value, attr, model, key) {
       switch (type) {
         case "$equal":
-          if (_(attr).isArray()) {
+          if (_.isArray(attr)) {
             return __indexOf.call(attr, value) >= 0;
           } else {
             return attr === value;
           }
           break;
         case "$oEqual":
-          return _(attr).isEqual(value);
+          return _.isEqual(attr, value);
         case "$contains":
           return __indexOf.call(attr, value) >= 0;
         case "$ne":
@@ -248,11 +248,11 @@ var __slice = [].slice,
         case "$nin":
           return __indexOf.call(value, attr) < 0;
         case "$all":
-          return _(value).all(function(item) {
+          return _.all(value, function(item) {
             return __indexOf.call(attr, item) >= 0;
           });
         case "$any":
-          return _(attr).any(function(item) {
+          return _.any(attr, function(item) {
             return __indexOf.call(value, item) >= 0;
           });
         case "$size":
@@ -328,7 +328,7 @@ var __slice = [].slice,
     };
     parseQuery = function(query) {
       var compoundKeys, compoundQuery, key, queryKeys, type, val;
-      queryKeys = _(query).keys();
+      queryKeys = _.keys(query);
       compoundKeys = ["$and", "$not", "$or", "$nor"];
       compoundQuery = _.intersection(compoundKeys, queryKeys);
       if (compoundQuery.length === 0) {
@@ -398,12 +398,12 @@ var __slice = [].slice,
       return models;
     };
     sortModels = function(models, options) {
-      if (_(options.sortBy).isString()) {
-        models = _(models).sortBy(function(model) {
+      if (_.isString(options.sortBy)) {
+        models = _.sortBy(models, function(model) {
           return model.get(options.sortBy);
         });
-      } else if (_(options.sortBy).isFunction()) {
-        models = _(models).sortBy(options.sortBy);
+      } else if (_.isFunction(options.sortBy)) {
+        models = _.sortBy(models, options.sortBy);
       }
       if (options.order === "desc") {
         models = models.reverse();

@@ -107,20 +107,20 @@ May be freely distributed according to MIT license.
   # Tests query value, to ensure that it is of the correct type
   testQueryValue = (type, value) ->
     switch type
-      when "$in","$nin","$all", "$any"  then _(value).isArray()
-      when "$size"                      then _(value).isNumber()
-      when "$regex"                     then _(value).isRegExp()
-      when "$like", "$likeI"            then _(value).isString()
-      when "$between"                   then _(value).isArray() and (value.length is 2)
-      when "$cb"                        then _(value).isFunction()
+      when "$in","$nin","$all", "$any"  then _.isArray(value)
+      when "$size"                      then _.isNumber(value)
+      when "$regex"                     then _.isRegExp(value)
+      when "$like", "$likeI"            then _.isString(value)
+      when "$between"                   then _.isArray(value) and (value.length is 2)
+      when "$cb"                        then _.isFunction(value)
       else true
 
   # Test each attribute that is being tested to ensure that is of the correct type
   testModelAttribute = (type, value) ->
     switch type
-      when "$like", "$likeI", "$regex"  then _(value).isString()
-      when "$contains", "$all", "$any", "$elemMatch" then _(value).isArray()
-      when "$size"                      then _(value).isArray() or _(value).isString()
+      when "$like", "$likeI", "$regex"  then _.isString(value)
+      when "$contains", "$all", "$any", "$elemMatch" then _.isArray(value)
+      when "$size"                      then _.isArray(value) or _.isString(value)
       when "$in", "$nin"                then value?
       when "$relationMatch"             then value? and value.models
       else true
@@ -130,8 +130,8 @@ May be freely distributed according to MIT license.
     switch type
       when "$equal"
         # If the attribute is an array then search for the query value in the array the same as Mongo
-        if _(attr).isArray()  then value in attr else attr is value
-      when "$oEqual"          then _(attr).isEqual value
+        if _.isArray(attr) then value in attr else attr is value
+      when "$oEqual"          then _.isEqual(attr, value)
       when "$contains"        then value in attr
       when "$ne"              then attr isnt value
       when "$lt"              then attr < value
@@ -141,8 +141,8 @@ May be freely distributed according to MIT license.
       when "$between"         then value[0] < attr < value[1]
       when "$in"              then attr in value
       when "$nin"             then attr not in value
-      when "$all"             then _(value).all (item) -> item in attr
-      when "$any"             then _(attr).any (item) -> item in value
+      when "$all"             then _.all(value, (item) -> item in attr)
+      when "$any"             then _.any(attr, (item) -> item in value)
       when "$size"            then attr.length is value
       when "$exists", "$has"  then attr? is value
       when "$like"            then attr.indexOf(value) isnt -1
@@ -190,7 +190,7 @@ May be freely distributed according to MIT license.
     $not: (models, query, itemType) -> iterator models, query, false, reject, itemType
 
   parseQuery = (query) ->
-    queryKeys =  _(query).keys()
+    queryKeys =  _.keys(query)
     compoundKeys = ["$and", "$not", "$or", "$nor"]
     compoundQuery = _.intersection compoundKeys, queryKeys
 
@@ -245,11 +245,11 @@ May be freely distributed according to MIT license.
   # Sorts models either be a model attribute or with a callback
   sortModels = (models, options) ->
     # If the sortBy param is a string then we sort according to the model attribute with that string as a key
-    if _(options.sortBy).isString()
-      models = _(models).sortBy (model) -> model.get(options.sortBy)
+    if _.isString(options.sortBy)
+      models = _.sortBy(models, (model) -> model.get(options.sortBy))
     # If a function is supplied then it is passed directly to the sortBy iterator
-    else if _(options.sortBy).isFunction()
-      models = _(models).sortBy(options.sortBy)
+    else if _.isFunction(options.sortBy)
+      models = _.sortBy(models, options.sortBy)
 
     # If there is an order property of "desc" then the results can be reversed
     # (sortBy provides result in ascending order by default)
