@@ -1,7 +1,7 @@
 {
   "name": "@apiaryio/backbone-query",
   "description": "Lightweight Query API for Backbone Collections",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Dave Tonge <dave@simplecreativity.co.uk> (https://github.com/davidgtonge)",
   "tags": [
     "backbone",
