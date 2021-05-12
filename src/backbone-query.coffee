@@ -3,7 +3,7 @@ Backbone Query - A lightweight query API for Backbone Collections
 (c)2012 - Dave Tonge
 May be freely distributed according to MIT license.
 ###
-((define) -> define 'backbone-query', (require, exports) ->
+((define) -> define '@apiaryio/backbone-query', (require, exports) ->
   _ = require('underscore')
   Backbone = require('backbone')
 

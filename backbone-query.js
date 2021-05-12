@@ -10,7 +10,7 @@ var __slice = [].slice,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 (function(define) {
-  return define('backbone-query', function(require, exports) {
+  return define('@apiaryio/backbone-query', function(require, exports) {
     var Backbone, detect, filter, getCache, getSortedModels, getType, iterator, makeObj, pageModels, parseQuery, parseSubQuery, performQuery, processQuery, reject, runQuery, sortModels, testModelAttribute, testQueryValue, _;
     _ = require('underscore');
     Backbone = require('backbone');
@@ -92,12 +92,12 @@ var __slice = [].slice,
       Function to parse raw queries
       @param {mixed} raw query
       @return {array} parsed query
-    
+
       Allows queries of the following forms:
       query
         name: "test"
         id: $gte: 10
-    
+
       query [
         {name:"test"}
         {id:$gte:10}

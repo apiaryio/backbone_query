@@ -1,7 +1,6 @@
-backbone-query
-===================
+@apiaryio/backbone-query fork of backbone-query
+===============================================
 
-[![Build Status](https://secure.travis-ci.org/davidgtonge/backbone_query.png)](http://travis-ci.org/davidgtonge/backbone_query)
 
 A lightweight (3KB minified) utility for Backbone projects, that works in the Browser and on the Server.
 Adds the ability to search for models with a Query API similar to
@@ -18,18 +17,14 @@ Usage
 To install, include the `js/backbone-query.min.js` file in your HTML page, after Backbone and it's dependencies.
 Then extend your collections from Backbone.QueryCollection rather than from Backbone.Collection.
 
-Backbone Query is also available via [Jam](http://jamjs.org/). Jam is a package manager for
-browser js packages and uses require.js. This is the recommended method of you want to use
-this library with require.js. To install, simply run `jam install backbone-query`.
-
 #### Server side (node.js) installation
-You can install with NPM: `npm install backbone-query`
-Then simply require in your project: `QueryCollection = require("backbone-query").QueryCollection`
+You can install with NPM: `npm install @apiaryio/backbone-query`
+Then simply require in your project: `QueryCollection = require("@apiaryio/backbone-query").QueryCollection`
 
 
 Your collections will now have two new methods: `query` and `whereBy`. Both methods accept 2 arguments -
 a query object and an options object. The `query` method returns an array of models, but the `whereBy` method
-returns a new collection and is therefore useful where you would like to chain multiple collection 
+returns a new collection and is therefore useful where you would like to chain multiple collection
 methods / whereBy queries (thanks to [Cezary Wojtkowski](https://github.com/cezary) ).
 
 The library also supports nested compound queries and is AMD compatible (thanks to [Rob W](https://github.com/Rob--W) ).
@@ -37,8 +32,8 @@ The library also supports nested compound queries and is AMD compatible (thanks 
 The following are some basic examples:
 
 ```js
-MyCollection.query({ 
-    featured:true, 
+MyCollection.query({
+    featured:true,
     likes: {$gt:10}
 });
 // Returns all models where the featured attribute is true and there are
@@ -63,7 +58,7 @@ MyCollection.query({
   $or:{
     featured: true, // Featured attribute is true
     category:{$in:["code","programming","javascript"]}
-  } 
+  }
   //Category attribute is either "code", "programming", or "javascript"
 });
 ```
@@ -84,10 +79,10 @@ MyCollection.query
 Another CoffeeScript example, this time using `whereBy` rather than `query`
 
 ```coffeescript
-query = 
+query =
   $likes: $lt: 10
   $downloads: $gt: 20
-  
+
 MyCollection.whereBy(query).my_custom_collection_method()
 ```
 
